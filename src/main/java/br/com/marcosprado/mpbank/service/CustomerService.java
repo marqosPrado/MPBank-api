@@ -27,7 +27,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer createCustomer(Customer customer) {
+    public Customer createCustomerAccount(Customer customer) {
         Accounts accounts = new Accounts();
         accounts.setCustomer(customer);
         accounts.setAccountSequence(accountService.createAccount());

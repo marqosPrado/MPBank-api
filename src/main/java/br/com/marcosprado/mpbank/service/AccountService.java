@@ -75,7 +75,7 @@ public class AccountService {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Número da Conta inválido");
     }
 
-    public Accounts saveAccount(Accounts account) {
-        return accountsRepository.save(account);
+    public void saveAccount(Accounts account) {
+        accountsRepository.save(account);
     }
 }

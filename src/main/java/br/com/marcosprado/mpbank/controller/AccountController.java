@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
 @RequestMapping("/api")
@@ -23,7 +24,12 @@ public class AccountController {
 
     @PostMapping("/deposit")
     public ResponseEntity<?> depositAmount(@RequestBody @Valid DepositDTO depositDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(accountService.depositAmount(depositDTO));
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(accountService.depositAmount(depositDTO));
+
+        } catch (HttpClientErrorException.NotFound exception) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception);
+        }
     }
 
 }

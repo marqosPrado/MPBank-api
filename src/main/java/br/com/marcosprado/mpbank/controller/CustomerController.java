@@ -24,7 +24,7 @@ public class CustomerController {
     @PostMapping("/createCustomer")
     public ResponseEntity<Customer> createCustumer(@RequestBody @Valid Customer customer) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(customer));
+            return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomerAccount(customer));
 
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
