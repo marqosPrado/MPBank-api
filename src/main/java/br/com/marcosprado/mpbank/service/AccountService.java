@@ -3,8 +3,11 @@ package br.com.marcosprado.mpbank.service;
 import br.com.marcosprado.mpbank.DTO.DepositDTO;
 import br.com.marcosprado.mpbank.model.Accounts;
 import br.com.marcosprado.mpbank.repository.AccountsRepository;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.Random;
 import java.util.UUID;
@@ -49,22 +52,27 @@ public class AccountService {
         return account;
     }
 
-    public boolean depositAmount(DepositDTO depositDTO) {
-        Accounts account = accountsRepository.findAllByAccountSequence(depositDTO.getAccount());
-        double balance = depositDTO.getBalance();
+    public ResponseEntity<?> depositAmount(DepositDTO depositDTO) {
+        try {
+            Accounts account = accountsRepository.findAllByAccountSequence(depositDTO.getAccount());
+            double balance = depositDTO.getBalance();
 
-        if(account != null) {
-            if(account.isAccount_status()){
-                double currentBalance = account.getBalance();
-                double newCurrentBalance = currentBalance + balance;
+            if (account != null) {
+                if (account.isAccount_status()) {
+                    double currentBalance = account.getBalance();
+                    double newCurrentBalance = currentBalance + balance;
 
-                account.setBalance(newCurrentBalance);
-                accountsRepository.save(account);
-                return true;
+                    account.setBalance(newCurrentBalance);
+                    accountsRepository.save(account);
+                    return ResponseEntity.status(HttpStatus.FOUND).build();
+                }
             }
-            return false;
+        } catch (HttpClientErrorException.NotFound exception) {
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Número da Conta inválido");
         }
-        return false;
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Número da Conta inválido");
     }
 
     public Accounts saveAccount(Accounts account) {

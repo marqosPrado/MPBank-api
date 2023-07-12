@@ -2,9 +2,9 @@ package br.com.marcosprado.mpbank.controller;
 
 import br.com.marcosprado.mpbank.model.Customer;
 import br.com.marcosprado.mpbank.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,8 +22,13 @@ public class CustomerController {
     }
 
     @PostMapping("/createCustomer")
-    public ResponseEntity<Customer> createCustumer(@RequestBody @Validated Customer customer) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(customer));
+    public ResponseEntity<Customer> createCustumer(@RequestBody @Valid Customer customer) {
+        try {
+            return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(customer));
+
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 }

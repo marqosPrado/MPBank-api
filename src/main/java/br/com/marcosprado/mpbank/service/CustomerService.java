@@ -1,6 +1,5 @@
 package br.com.marcosprado.mpbank.service;
 
-import br.com.marcosprado.mpbank.DTO.DepositDTO;
 import br.com.marcosprado.mpbank.model.Accounts;
 import br.com.marcosprado.mpbank.model.Customer;
 import br.com.marcosprado.mpbank.repository.AccountsRepository;
@@ -23,10 +22,6 @@ public class CustomerService {
         this.accountsRepository = accountsRepository;
         this.accountService = accountService;
     }
-
-//    private Customer findAllById(Customer customer) {
-//        return customerRepository.findAllByCpf_id(customer);
-//    }
 
     private Customer save(Customer customer) {
         return customerRepository.save(customer);
