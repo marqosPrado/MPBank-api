@@ -1,8 +1,10 @@
 package br.com.marcosprado.mpbank.service;
 
+import br.com.marcosprado.mpbank.DTO.DepositDTO;
 import br.com.marcosprado.mpbank.model.Accounts;
 import br.com.marcosprado.mpbank.repository.AccountsRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Random;
 import java.util.UUID;
@@ -45,6 +47,24 @@ public class AccountService {
         }
         String account = fix + "-" + sulfix;
         return account;
+    }
+
+    public boolean depositAmount(DepositDTO depositDTO) {
+        Accounts account = accountsRepository.findAllByAccountSequence(depositDTO.getAccount());
+        double balance = depositDTO.getBalance();
+
+        if(account != null) {
+            if(account.isAccount_status()){
+                double currentBalance = account.getBalance();
+                double newCurrentBalance = currentBalance + balance;
+
+                account.setBalance(newCurrentBalance);
+                accountsRepository.save(account);
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     public Accounts saveAccount(Accounts account) {

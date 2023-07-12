@@ -16,6 +16,7 @@ public class CustomerController {
 
     final CustomerService customerService;
 
+
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
@@ -24,4 +25,5 @@ public class CustomerController {
     public ResponseEntity<Customer> createCustumer(@RequestBody @Validated Customer customer) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomer(customer));
     }
+
 }

@@ -1,5 +1,6 @@
 package br.com.marcosprado.mpbank.service;
 
+import br.com.marcosprado.mpbank.DTO.DepositDTO;
 import br.com.marcosprado.mpbank.model.Accounts;
 import br.com.marcosprado.mpbank.model.Customer;
 import br.com.marcosprado.mpbank.repository.AccountsRepository;
@@ -40,9 +41,4 @@ public class CustomerService {
 
         return save(customer);
     }
-
-    public Accounts depositCash(Accounts accounts) {
-
-    }
-
 }
