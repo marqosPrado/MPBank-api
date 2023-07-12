@@ -15,8 +15,7 @@ import java.util.UUID;
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID customer_id;
+    private String cpf_id;
 
     @Column(length = 50, nullable = false)
     private String fullName;

@@ -3,7 +3,6 @@ package br.com.marcosprado.mpbank.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,8 +17,11 @@ public class Accounts {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID account_id;
 
+    @Column(length = 8, nullable = false)
+    private String accountSequence;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "cpf_customer_id")
     private Customer customer;
 
     private double balance;
