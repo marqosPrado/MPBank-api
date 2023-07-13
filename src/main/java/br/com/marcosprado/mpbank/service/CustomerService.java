@@ -7,6 +7,7 @@ import br.com.marcosprado.mpbank.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class CustomerService {
@@ -35,5 +36,9 @@ public class CustomerService {
         accountService.saveAccount(accounts);
 
         return save(customer);
+    }
+
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
     }
 }

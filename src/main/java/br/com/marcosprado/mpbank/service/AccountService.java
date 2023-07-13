@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -77,5 +78,10 @@ public class AccountService {
 
     public void saveAccount(Accounts account) {
         accountsRepository.save(account);
+    }
+
+
+    public List<Accounts> findAll() {
+        return accountsRepository.findAll();
     }
 }
