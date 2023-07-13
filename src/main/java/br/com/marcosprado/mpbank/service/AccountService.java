@@ -6,7 +6,6 @@ import br.com.marcosprado.mpbank.repository.AccountsRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -49,11 +48,14 @@ public class AccountService {
             char someChar = characters[randomIndex];
             sulfix.append(someChar);
         }
-        String account = fix + "-" + sulfix;
-        return account;
+        String accountSequence = fix + "-" + sulfix;
+        return accountSequence;
     }
 
     public ResponseEntity<?> depositAmount(DepositDTO depositDTO) {
+        if(depositDTO.getBalance() <= 0) {
+            return ResponseEntity.badRequest().body("Invalid Value");
+        }
         try {
             Accounts account = accountsRepository.findAllByAccountSequence(depositDTO.getAccount());
             double balance = depositDTO.getBalance();
@@ -70,10 +72,10 @@ public class AccountService {
             }
         } catch (HttpClientErrorException.NotFound exception) {
 
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Número da Conta inválido");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account Invalid");
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Número da Conta inválido");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account Invalid");
     }
 
     public void saveAccount(Accounts account) {
