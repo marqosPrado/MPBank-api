@@ -31,7 +31,7 @@ public class CustomerService {
     public Customer createCustomerAccount(Customer customer) {
         Accounts accounts = new Accounts();
         accounts.setCustomer(customer);
-        accounts.setAccountSequence(accountService.createAccount());
+        accounts.setAccountSequence(accountService.createAccountSequence());
         accounts.setCreated_at(LocalDateTime.now());
         accountService.saveAccount(accounts);
 

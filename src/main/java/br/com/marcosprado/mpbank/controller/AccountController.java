@@ -1,5 +1,6 @@
 package br.com.marcosprado.mpbank.controller;
 
+import br.com.marcosprado.mpbank.DTO.StatusAccountDTO;
 import br.com.marcosprado.mpbank.DTO.DepositDTO;
 import br.com.marcosprado.mpbank.model.Accounts;
 import br.com.marcosprado.mpbank.service.AccountService;
@@ -9,11 +10,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 @RestController
@@ -41,5 +38,16 @@ public class AccountController {
     public List<Accounts> listAccounts() {
         return accountService.findAll();
     }
+
+    @DeleteMapping("/account")
+    public ResponseEntity<Accounts> deleteAccount(@RequestBody StatusAccountDTO statusAccountDTO) {
+        return accountService.deactivateAccount(statusAccountDTO.getAccountSequence());
+    }
+
+    @PutMapping("/account")
+    public ResponseEntity<Accounts> activateAccount(@RequestBody StatusAccountDTO statusAccountDTO) {
+        return accountService.activateAccount(statusAccountDTO.getAccountSequence());
+    }
+
 
 }

@@ -27,7 +27,7 @@ public class AccountService {
         return uuid.toString();
     }
 
-    public String createAccount() {
+    public String createAccountSequence() {
         Random random = new Random();
         char[] characters = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
@@ -48,8 +48,7 @@ public class AccountService {
             char someChar = characters[randomIndex];
             sulfix.append(someChar);
         }
-        String accountSequence = fix + "-" + sulfix;
-        return accountSequence;
+        return fix + "-" + sulfix;
     }
 
     public ResponseEntity<?> depositAmount(DepositDTO depositDTO) {
@@ -76,6 +75,26 @@ public class AccountService {
         }
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account Invalid");
+    }
+
+    public ResponseEntity<Accounts> deactivateAccount(String accountSequence) {
+        Accounts account = this.findAllByAccountSequence(accountSequence);
+
+        account.setAccount_status(false);
+        saveAccount(account);
+        return ResponseEntity.ok().body(account);
+    }
+
+    public ResponseEntity<Accounts> activateAccount(String accountSequence) {
+        Accounts account = this.findAllByAccountSequence(accountSequence);
+
+        account.setAccount_status(true);
+        saveAccount(account);
+        return ResponseEntity.ok().body(account);
+    }
+
+    private Accounts findAllByAccountSequence(String accountSequence) {
+        return accountsRepository.findAllByAccountSequence(accountSequence);
     }
 
     public void saveAccount(Accounts account) {

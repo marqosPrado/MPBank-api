@@ -1,5 +1,6 @@
 package br.com.marcosprado.mpbank.service;
 
+import br.com.marcosprado.mpbank.model.Transactions;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -7,8 +8,11 @@ import br.com.marcosprado.mpbank.DTO.TransactionDTO;
 import br.com.marcosprado.mpbank.model.Accounts;
 import br.com.marcosprado.mpbank.repository.TransactionRepository;
 
+import java.time.LocalDateTime;
+
 @Service
 public class TransactionService {
+
 
     final AccountService accountService;
     final TransactionRepository transactionRepository;
@@ -20,9 +24,11 @@ public class TransactionService {
 
     private boolean validTransaction(Accounts from_account, Accounts to_account, double amount) {
         if(from_account != null && to_account != null) {
-            if(from_account.isAccount_status() && to_account.isAccount_status()) {
-                if(amount > 0) {
-                    return from_account.getBalance() > 0 && from_account.getBalance() >= amount;
+            if(!from_account.getAccountSequence().equals(to_account.getAccountSequence())) {
+                if(from_account.isAccount_status() && to_account.isAccount_status()) {
+                    if(amount > 0) {
+                        return from_account.getBalance() > 0 && from_account.getBalance() >= amount;
+                    }
                 }
             }
         }
@@ -43,9 +49,21 @@ public class TransactionService {
             to_account.setBalance(to_account.getBalance() + transactionDTO.getAmount());
             accountService.saveAccount(from_account);
             accountService.saveAccount(to_account);
+
+            Transactions transactions = new Transactions();
+            transactions.setFrom_account_id(from_account);
+            transactions.setTo_account_id(to_account);
+            transactions.setData_issue(LocalDateTime.now());
+            transactions.setAmount(amount);
+            saveTransactionDetails(transactions);
+
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    private void saveTransactionDetails(Transactions transaction) {
+        this.transactionRepository.save(transaction);
     }
 
 }
