@@ -25,7 +25,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @PostMapping("/createCustomer")
+    @PostMapping("/create")
     public ResponseEntity<Customer> createCustumer(@RequestBody @Valid Customer customer) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(customerService.createCustomerAccount(customer));

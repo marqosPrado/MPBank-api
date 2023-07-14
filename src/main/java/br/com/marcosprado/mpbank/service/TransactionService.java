@@ -23,16 +23,22 @@ public class TransactionService {
     }
 
     private boolean validTransaction(Accounts from_account, Accounts to_account, double amount) {
-        if(from_account != null && to_account != null) {
-            if(!from_account.getAccountSequence().equals(to_account.getAccountSequence())) {
-                if(from_account.isAccount_status() && to_account.isAccount_status()) {
-                    if(amount > 0) {
-                        return from_account.getBalance() > 0 && from_account.getBalance() >= amount;
-                    }
-                }
-            }
+        if(from_account == null || to_account == null) {
+            return false;
         }
-        return false;
+
+        if(from_account.getAccountSequence().equals(to_account.getAccountSequence())) {
+            return false;
+        }
+
+        if(!from_account.isAccount_status() || !to_account.isAccount_status()) {
+            return false;
+        }
+
+        if(amount <= 0) {
+            return false;
+        }
+        return from_account.getBalance() > 0 && from_account.getBalance() >= amount;
     }
 
     private Accounts findAllByAccountSequence(String accountSequence) {
