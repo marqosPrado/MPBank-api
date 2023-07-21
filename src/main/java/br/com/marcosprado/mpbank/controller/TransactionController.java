@@ -3,7 +3,6 @@ package br.com.marcosprado.mpbank.controller;
 import br.com.marcosprado.mpbank.DTO.TransactionDTO;
 import br.com.marcosprado.mpbank.service.TransactionService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
