@@ -2,11 +2,10 @@
 
 Esse projeto é uma API para uma instituição financeira fictícia, MP Bank. Com essa API podemos cadastrar clientes e associar uma conta bancária a eles, além de realizar transações entre os clientes.
 
-## Tecnologias:
+## Tecnologias no Projeto:
 
 #### Java 17
 #### MariaDB
-#### Maven
 #### Spring Boot
 #### Spring Data JPA
 
