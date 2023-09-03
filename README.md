@@ -6,7 +6,8 @@ Esse projeto é uma API para uma instituição financeira fictícia, MP Bank. Co
 
 #### Java 17
 #### MariaDB
-#### Spring
+#### Maven
+#### Spring Boot
 #### Spring Data JPA
 
 ### Customer Endpoint:
